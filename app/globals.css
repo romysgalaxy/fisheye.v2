@@ -121,3 +121,135 @@ main {
   margin: 5px 0;
 
 }
+
+/* Page photographe */
+.photographer-header {
+  margin-bottom: 3rem;
+  margin-left: 64px;
+  margin-right: 64px;
+  padding: 2rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f7f7f7;
+  border-radius: 15px;
+}
+
+/* .photographer-header__info {
+  flex: 1;
+} */
+
+.photographer-header__name {
+  color: #d3573c;
+  font-size: 3rem;
+  margin: 0;
+  font-weight: 400;
+}
+
+.photographer-header__location {
+  color: #901c1c;
+  font-weight: 500;
+  margin: 0.3rem 0 1rem;
+}
+
+.photographer-header__tagline {
+  color: #525252;
+}
+
+.photographer-header__contact-btn {
+  background-color: #901c1c;
+  color: white;
+  font-size: 1rem;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.photographer-header__contact-btn:hover {
+  background-color: #6e1212;
+}
+
+.photographer-header__image-wrapper {
+  flex-shrink: 0;
+}
+
+.photographer-header__image {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Galerie de photos */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+  justify-items: center;
+}
+
+/* Tablet ≤ 1024px → 2 colonnes */
+@media (max-width: 1024px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile ≤ 640px → 1 colonne */
+@media (max-width: 640px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Media card */
+
+.media-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
+}
+
+.media-card__frame {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.media-card__media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.media-card__video {
+  background: #000;
+}
+
+.media-card__info {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.media-card__title {
+  font-size: 1rem;
+  color: #D3573C;
+  margin: 5px 0;
+}
+
+.media-card__like-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #D3573C;
+  cursor: pointer;
+}
