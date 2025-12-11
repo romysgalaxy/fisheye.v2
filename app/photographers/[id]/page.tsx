@@ -2,6 +2,7 @@ import { getPhotographer, getAllMediasForPhotographer } from "@/app/lib/prisma-d
 import type { Photographer, Media } from "@prisma/client";
 import PhotographerHeader from "@/app/components/PhotographerHeader";
 import MediaCard from "@/app/components/MediaCard";
+import Header from "@/app/components/Header";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -20,13 +21,16 @@ export default async function PhotographerPage({ params }: Props) {
   }
 
   return (
-    <main>
-      <PhotographerHeader photographer={photographer} />
-      <section className="gallery-grid">
-        {medias.map((media) => (
-          <MediaCard key={media.id} media={media} />
-        ))}
-      </section>
-    </main>
+    <>
+      <Header />
+      <main>
+        <PhotographerHeader photographer={photographer} />
+        <section className="gallery-grid">
+          {medias.map((media) => (
+            <MediaCard key={media.id} media={media} />
+          ))}
+        </section>
+      </main>
+    </>
   );
 }

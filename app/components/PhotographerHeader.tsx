@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import type { Photographer } from "@prisma/client";
-import Header from "./Header";
+import ContactModal from "./ContactModal";
+import { useState } from "react";
 
 type Props = {
   photographer: Photographer;
@@ -8,12 +11,13 @@ type Props = {
 
 export default function PhotographerHeader({ photographer }: Props) {
   const { name, city, country, tagline, portrait } = photographer;
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
-    <main>
-      <Header />
+    <>
       <section className="photographer-header">
         <div className="photographer-header__info">
+          {/* Heading (h1) statique pour la page photographe */}
           <h1 className="photographer-header__name">{name}</h1>
 
           <p className="photographer-header__location">
@@ -24,7 +28,11 @@ export default function PhotographerHeader({ photographer }: Props) {
         </div>
 
         {/* Bouton Contact */}
-        <button className="photographer-header__contact-btn">
+        <button
+          className="photographer-header__contact-btn"
+          type="button"
+          onClick={() => setIsContactOpen(true)}
+        >
           Contactez-moi
         </button>
 
@@ -34,13 +42,18 @@ export default function PhotographerHeader({ photographer }: Props) {
             src={`/images/${portrait}`}
             width={200}
             height={200}
-            alt={name}
+            alt={name}         
             className="photographer-header__image"
           />
         </div>
       </section>
 
-    </main>
-
+      {/* Modale de contact */}
+      <ContactModal
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+        photographerName={name}
+      />
+    </>
   );
 }
