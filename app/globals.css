@@ -1,26 +1,123 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+body {
+  margin: 0;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+main {
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* cacher seulement visuellement, garder pour les lecteurs d’écran */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Header */
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 4rem;
+}
+
+.main-header__logo {
+  height: 40px;
+}
+
+.main-header__title {
+  font-size: 2rem;
+  color: #901c1c;
+  font-weight: 400;
+}
+
+/* Grille des photographes */
+.photographers-section {
+  padding: 0 4rem 4rem;
+}
+
+.photographers-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  justify-items: center;
+  gap: 3rem 4rem;
+}
+
+/* ≤ 1024px : 2 colonnes */
+@media (max-width: 1024px) {
+  .photographers-grid {
+    grid-template-columns: repeat(2, minmax(230px, 1fr));
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ≤ 640px : 1 colonne */
+@media (max-width: 640px) {
+  .photographers-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.photographers-grid__item {
+  flex: 1 1 280px;
+  max-width: 320px;
+}
+
+/* Carte photographe */
+.photographer-card {
+  text-align: center;
+}
+
+.photographer-card__link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.photographer-card__image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.photographer-card__name {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  color: #d3573c;
+  font-weight: 400;
+  margin: 10px 0;
+
+}
+
+/* Texte sous le nom */
+.photographer-card__location {
+  color: #901c1c;
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+
+.photographer-card__tagline {
+  font-size: 0.9rem;
+  margin: 5px 0;
+
+}
+
+.photographer-card__price {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #757575;
+  margin: 5px 0;
+
 }
