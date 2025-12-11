@@ -226,6 +226,7 @@ main {
   height: 100%;
   object-fit: cover;
   display: block;
+  cursor: pointer;
 }
 
 .media-card__video {
@@ -343,4 +344,77 @@ main {
 
 .modal__submit-btn:hover {
   background-color: #6e1212;
+}
+
+/* Light Box */
+
+/* Overlay full-screen */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+
+/* Conteneur principal */
+.lightbox {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Media (image ou vidéo) */
+.lightbox__media-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.lightbox__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Bouton fermer (croix en haut à droite) */
+.lightbox__close {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: #db8876;
+  font-size: 2.5rem;
+  cursor: pointer;
+  z-index: 1;
+}
+
+/* Navigation gauche/droite */
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #db8876;
+  font-size: 3rem;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.lightbox__nav--prev {
+  left: 1.5rem;
+}
+
+.lightbox__nav--next {
+  right: 1.5rem;
 }
