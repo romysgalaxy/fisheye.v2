@@ -439,3 +439,30 @@ main {
 .likes-bar__price {
   margin: 0;
 }
+
+/* Sort select */
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.sort__label {
+  font-weight: 700;
+}
+
+.sort__select {
+  background: #901c1c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.8rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sort__select:focus {
+  outline: 3px solid #db8876;
+  outline-offset: 3px;
+}
