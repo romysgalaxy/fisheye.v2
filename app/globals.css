@@ -418,3 +418,24 @@ main {
 .lightbox__nav--next {
   right: 1.5rem;
 }
+
+/* Likes bar*/
+
+.likes-bar {
+  position: fixed;
+  right: 2rem;
+  bottom: 0;
+  background: #db8876;
+  padding: 1rem 1.5rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  font-weight: 700;
+}
+
+.likes-bar__likes,
+.likes-bar__price {
+  margin: 0;
+}

@@ -1,23 +1,18 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-
-const { PrismaClient } = require('@prisma/client');
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 export const getAllPhotographers = () => prisma.photographer.findMany();
 
 export const getPhotographer = (id: number) =>
-  prisma.photographer.findUnique({
-    where: { id },
-  });
+  prisma.photographer.findUnique({ where: { id } });
 
 export const getAllMediasForPhotographer = (photographerId: number) =>
-  prisma.media.findMany({
-    where: { photographerId },
-  });
+  prisma.media.findMany({ where: { photographerId } });
 
-export const updateNumberOfLikes = (mediaId: number, newNumberOfLikes: number) =>
+export const incrementLike = (mediaId: number) =>
   prisma.media.update({
     where: { id: mediaId },
-    data: { likes: newNumberOfLikes },
+    data: { likes: { increment: 1 } },
+    select: { id: true, likes: true },
   });

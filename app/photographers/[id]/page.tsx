@@ -25,7 +25,8 @@ export default async function PhotographerPage({ params }: Props) {
       <Header />
       <main>
         <PhotographerHeader photographer={photographer} />
-        <Gallery medias={medias} />
+        <Gallery medias={medias} photographerPricePerDay={photographer.price} />
+
       </main>
     </>
   );
