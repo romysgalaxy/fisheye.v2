@@ -3,8 +3,9 @@ body {
 }
 
 main {
-  max-width: 1440px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 /* cacher seulement visuellement, garder pour les lecteurs d’écran */
@@ -24,8 +25,8 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem 4rem;
-  max-width: 1440px;
+  padding: 2rem 1rem;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -40,18 +41,21 @@ main {
 }
 
 /* Grille des photographes */
-.photographers-section {
-  padding: 0 4rem 4rem;
-}
 
 .photographers-grid {
   list-style: none;
+  justify-items: center;
+  gap: 2rem;
+  margin-top: 3rem;
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+ul.photographers-grid {
   padding: 0;
   margin: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(280px, 1fr));
-  justify-items: center;
-  gap: 3rem 4rem;
 }
 
 /* ≤ 1024px : 2 colonnes */
@@ -127,14 +131,13 @@ main {
 /* Page photographe */
 .photographer-header {
   margin-bottom: 3rem;
-  margin-left: 64px;
-  margin-right: 64px;
   padding: 2rem 3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #f7f7f7;
   border-radius: 15px;
+  flex-wrap: wrap;
 }
 
 .photographer-header__name {
@@ -182,11 +185,13 @@ main {
 /* Galerie de photos */
 
 .gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
   gap: 2rem;
   margin-top: 3rem;
-  justify-items: center;
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 /* Tablet ≤ 1024px → 2 colonnes */
