@@ -7,7 +7,10 @@ type Props = {
 
 export default function LikesBar({ totalLikes, pricePerDay }: Props) {
   return (
-    <aside className="likes-bar" aria-label="Informations du photographe">
+    <aside className="likes-bar" aria-labelledby="likes-bar-heading">
+      <h2 id="likes-bar-heading" className="sr-only">
+        Informations du photographe
+      </h2>
       <p className="likes-bar__likes">
         {totalLikes} <span aria-hidden="true">♥</span>
       </p>

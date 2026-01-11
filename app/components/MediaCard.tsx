@@ -40,7 +40,7 @@ export default function MediaCard({ media, onOpen, onLike }: Props) {
         ) : video ? (
           <video
             src={`${basePath}/${video}`}
-            aria-label={title}
+            title={title}
             className="media-card__media media-card__video"
             muted
             preload="metadata"

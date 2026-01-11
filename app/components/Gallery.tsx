@@ -6,6 +6,7 @@ import MediaCard from "./MediaCard";
 import Lightbox from "./LightBox";
 import LikesBar from "./LikesBar";
 import SortSelect from "./SortSelect";
+import Toast from "./Toast";
 
 type SortValue = "popularity" | "date" | "title";
 
@@ -19,6 +20,9 @@ export default function Gallery({ medias, photographerPricePerDay }: GalleryProp
 
   // ✅ tri sélectionné
   const [sortBy, setSortBy] = useState<SortValue>("popularity");
+
+  // État pour le toast d'erreur
+  const [showErrorToast, setShowErrorToast] = useState(false);
 
   // ✅ total likes (sur les items en state)
   const totalLikes = useMemo(
@@ -91,6 +95,7 @@ export default function Gallery({ medias, photographerPricePerDay }: GalleryProp
       setItems((prev) =>
         prev.map((m) => (m.id === mediaId ? { ...m, likes: m.likes - 1 } : m))
       );
+      setShowErrorToast(true);
     }
   }, []);
 
@@ -99,7 +104,10 @@ export default function Gallery({ medias, photographerPricePerDay }: GalleryProp
       {/* ✅ Barre de tri */}
       <SortSelect value={sortBy} onChange={setSortBy} />
 
-      <section className="gallery-grid" aria-label="Galerie des travaux">
+      <section className="gallery-grid" aria-labelledby="gallery-heading">
+        <h2 id="gallery-heading" className="sr-only">
+          Galerie des travaux
+        </h2>
         {sortedItems.map((media, index) => (
           <MediaCard
             key={media.id}
@@ -119,6 +127,14 @@ export default function Gallery({ medias, photographerPricePerDay }: GalleryProp
           onClose={close}
           onPrev={showPrev}
           onNext={showNext}
+        />
+      )}
+
+      {showErrorToast && (
+        <Toast
+          message="Impossible d'ajouter le like. Veuillez réessayer."
+          type="error"
+          onClose={() => setShowErrorToast(false)}
         />
       )}
     </>

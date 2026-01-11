@@ -17,7 +17,7 @@ export default function PhotographerCard({ photographer }: PhotographerCardProps
           width={200}
           height={200}
           className="photographer-card__image"
-          alt=""
+          alt={name}
         />
         <h2 className="photographer-card__name">{name}</h2>
       </Link>

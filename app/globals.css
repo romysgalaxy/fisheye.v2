@@ -471,3 +471,130 @@ ul.photographers-grid {
   outline: 3px solid #db8876;
   outline-offset: 3px;
 }
+
+/* Skeleton loaders */
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.skeleton-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  margin: 0 auto 1rem;
+}
+
+.skeleton-text {
+  height: 1rem;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin: 0.5rem auto;
+}
+
+.skeleton-text--title {
+  width: 60%;
+  height: 1.5rem;
+}
+
+.skeleton-text--subtitle {
+  width: 80%;
+}
+
+.skeleton-text--small {
+  width: 40%;
+}
+
+/* Toast notifications */
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #d32f2f;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  animation: toast-slide-in 0.3s ease-out;
+}
+
+.toast--success {
+  background: #388e3c;
+}
+
+.toast--error {
+  background: #d32f2f;
+}
+
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Error page styles */
+.error-container,
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.error-container h1,
+.not-found-container h1 {
+  font-size: 3rem;
+  color: #901c1c;
+  margin-bottom: 1rem;
+}
+
+.error-container p,
+.not-found-container p {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.error-button,
+.not-found-button {
+  background: #901c1c;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.error-button:hover,
+.not-found-button:hover {
+  background: #7a1818;
+}
+
+.error-button:focus,
+.not-found-button:focus {
+  outline: 3px solid #db8876;
+  outline-offset: 3px;
+}

@@ -97,7 +97,7 @@ export default function Lightbox({
               controls
               autoPlay
               className="lightbox__media lightbox__video"
-              aria-label={media.title}
+              title={media.title}
             />
           ) : null}
         </div>

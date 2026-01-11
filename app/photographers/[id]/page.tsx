@@ -3,6 +3,7 @@ import type { Photographer, Media } from "@prisma/client";
 import PhotographerHeader from "@/app/components/PhotographerHeader";
 import Header from "@/app/components/Header";
 import Gallery from "@/app/components/Gallery";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -17,7 +18,7 @@ export default async function PhotographerPage({ params }: Props) {
   const medias: Media[] = await getAllMediasForPhotographer(photographerId);
 
   if (!photographer) {
-    return <p>Photographe introuvable…</p>;
+    notFound();
   }
 
   return (
