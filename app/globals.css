@@ -472,48 +472,6 @@ ul.photographers-grid {
   outline-offset: 3px;
 }
 
-/* Skeleton loaders */
-.skeleton {
-  animation: skeleton-loading 1s linear infinite alternate;
-}
-
-@keyframes skeleton-loading {
-  0% {
-    opacity: 0.6;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.skeleton-image {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: #e0e0e0;
-  margin: 0 auto 1rem;
-}
-
-.skeleton-text {
-  height: 1rem;
-  background: #e0e0e0;
-  border-radius: 4px;
-  margin: 0.5rem auto;
-}
-
-.skeleton-text--title {
-  width: 60%;
-  height: 1.5rem;
-}
-
-.skeleton-text--subtitle {
-  width: 80%;
-}
-
-.skeleton-text--small {
-  width: 40%;
-}
-
 /* Toast notifications */
 .toast {
   position: fixed;

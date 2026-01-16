@@ -16,9 +16,6 @@ export default function Error({ error, reset }: ErrorProps) {
     <div className="error-container">
       <h1>Oups !</h1>
       <p>Une erreur inattendue s'est produite.</p>
-      <p style={{ fontSize: "1rem", color: "#999", marginBottom: "2rem" }}>
-        {error.message || "Veuillez réessayer ultérieurement."}
-      </p>
       <button onClick={reset} className="error-button">
         Réessayer
       </button>
