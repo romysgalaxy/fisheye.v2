@@ -38,7 +38,7 @@ npx prisma db seed   # Seed database from data/ JSON files
 - Seed data in `data/photographer.json` and `data/media.json`
 
 **API Routes**:
-- `POST /api/likes` - Increment like count with optimistic updates
+- `POST /api/likes` - Toggle like/unlike with optimistic updates (supports both increment and decrement)
 
 ### Component Architecture
 
@@ -46,7 +46,8 @@ npx prisma db seed   # Seed database from data/ JSON files
 
 **Gallery Component** (`app/components/Gallery.tsx`):
 - Central client component managing media state, sorting, and lightbox
-- Uses optimistic updates for likes (update UI → API call → sync or rollback)
+- Uses optimistic updates for like/unlike toggle (update UI → API call → sync or rollback)
+- Like state tracked in component state (1 like maximum per user per media, Instagram-style)
 - Sorting handled client-side with `useMemo` (popularity/date/title)
 - Maintains `items` state as source of truth, derives `sortedItems` for display
 - Lightbox navigation based on current sorted order
@@ -69,26 +70,26 @@ npx prisma db seed   # Seed database from data/ JSON files
 
 ## Key Implementation Details
 
-**Optimistic UI Updates**: The Gallery component implements optimistic updates for likes - state updates immediately on user action, then syncs with server response or rolls back on error.
+**Like/Unlike System**: Instagram-style toggle system where users can like (❤) or unlike (♥) media. Likes persisted in database. **Database is the source of truth** - state updates only after successful API response. Maximum 1 like per user per media (tracked in component state, resets on page refresh). No optimistic updates to prevent desynchronization issues. Double-click protection with loading state.
 
-**State Management**: Gallery uses local state with derived computations (sorting, total likes) via `useMemo` to prevent unnecessary re-renders.
+**State Management**: Gallery uses local state with derived computations (sorting, total likes) via `useMemo` to prevent unnecessary re-renders. Liked media IDs stored in component state as a Set. Loading states prevent concurrent requests.
 
-**Prisma Client**: Single instance in `app/lib/prisma-db.ts` - import database functions from here, never instantiate PrismaClient elsewhere.
+**Prisma Client**: Single instance in `app/lib/prisma-db.ts` - import database functions from here, never instantiate PrismaClient elsewhere. Includes both `incrementLike()` and `decrementLike()` functions with built-in validation. `decrementLike()` prevents negative values. API fallback returns current DB state on errors to maintain synchronization.
 
 ## Error Handling & Loading States
 
 **Loading States**:
-- `app/loading.tsx` - Skeleton loader for homepage (6 photographer cards)
-- `app/photographers/[id]/loading.tsx` - Skeleton loader for photographer page (header + gallery)
-- Skeletons use CSS animations for smooth loading experience
+- `app/loading.tsx` - Simple "Chargement des photographes" text for homepage
+- `app/photographers/[id]/loading.tsx` - Simple "Chargement des médias du photographe" text for photographer page
+- No skeleton loaders, just centered text
 
 **Error Handling**:
-- `app/error.tsx` - Global error boundary with retry functionality
+- `app/error.tsx` - Simple error page with "Oups !" message and retry button (no error details displayed)
 - `app/not-found.tsx` - Custom 404 page with link to homepage
 - `notFound()` used in photographer page when ID not found
 
 **User Feedback**:
-- Toast component (`app/components/Toast.tsx`) for temporary messages
-- Like errors display toast notification with auto-dismiss (3s)
+- Toast component (`app/components/Toast.tsx`) for like/unlike error messages
+- Errors display toast notification with auto-dismiss (3s)
 - Optimistic updates with automatic rollback on failure
 - All error/loading states are WCAG compliant with proper ARIA attributes

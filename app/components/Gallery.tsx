@@ -24,6 +24,9 @@ export default function Gallery({ medias, photographerPricePerDay }: GalleryProp
   // État pour le toast d'erreur
   const [showErrorToast, setShowErrorToast] = useState(false);
 
+  // État pour suivre les médias likés par l'utilisateur dans cette session
+  const [likedMedias, setLikedMedias] = useState<Set<number>>(new Set());
+
   // ✅ total likes (sur les items en state)
   const totalLikes = useMemo(
     () => items.reduce((sum, m) => sum + (m.likes ?? 0), 0),
@@ -71,33 +74,45 @@ export default function Gallery({ medias, photographerPricePerDay }: GalleryProp
     );
   }, [sortedItems.length]);
 
-  // ✅ like : on met à jour items (source de vérité)
-  const likeMedia = useCallback(async (mediaId: number) => {
-    setItems((prev) =>
-      prev.map((m) => (m.id === mediaId ? { ...m, likes: m.likes + 1 } : m))
-    );
+  // ✅ toggle like/unlike
+  const toggleLike = useCallback(async (mediaId: number) => {
+    const isLiked = likedMedias.has(mediaId);
+    const action = isLiked ? "unlike" : "like";
 
     try {
       const res = await fetch("/api/likes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mediaId }),
+        body: JSON.stringify({ mediaId, action }),
       });
 
-      if (!res.ok) throw new Error("Like failed");
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Like/Unlike failed");
+      }
 
       const updated = (await res.json()) as { id: number; likes: number };
 
+      // Mettre à jour avec la réponse de la BDD
       setItems((prev) =>
         prev.map((m) => (m.id === updated.id ? { ...m, likes: updated.likes } : m))
       );
-    } catch {
-      setItems((prev) =>
-        prev.map((m) => (m.id === mediaId ? { ...m, likes: m.likes - 1 } : m))
-      );
+
+      // Mettre à jour l'état liké/unliké
+      setLikedMedias((prev) => {
+        const next = new Set(prev);
+        if (isLiked) {
+          next.delete(mediaId);
+        } else {
+          next.add(mediaId);
+        }
+        return next;
+      });
+    } catch (error) {
+      console.error("Erreur lors du toggle like:", error);
       setShowErrorToast(true);
     }
-  }, []);
+  }, [likedMedias]);
 
   return (
     <>
@@ -113,7 +128,8 @@ export default function Gallery({ medias, photographerPricePerDay }: GalleryProp
             key={media.id}
             media={media}
             onOpen={() => openAtIndex(index)}
-            onLike={() => likeMedia(media.id)}
+            onLike={() => toggleLike(media.id)}
+            isLiked={likedMedias.has(media.id)}
           />
         ))}
       </section>
@@ -132,7 +148,7 @@ export default function Gallery({ medias, photographerPricePerDay }: GalleryProp
 
       {showErrorToast && (
         <Toast
-          message="Impossible d'ajouter le like. Veuillez réessayer."
+          message="Impossible de mettre à jour le like. Veuillez réessayer."
           type="error"
           onClose={() => setShowErrorToast(false)}
         />

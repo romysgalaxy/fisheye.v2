@@ -20,10 +20,32 @@ export const getAllMediasForPhotographer = async (photographerId: number) => {
 };
 
 export const incrementLike = async (mediaId: number) => {
-  // await delay(3000);
   return prisma.media.update({
     where: { id: mediaId },
     data: { likes: { increment: 1 } },
+    select: { id: true, likes: true },
+  });
+};
+
+export const decrementLike = async (mediaId: number) => {
+  // Récupérer l'état actuel
+  const media = await prisma.media.findUnique({
+    where: { id: mediaId },
+    select: { likes: true }
+  });
+
+  if (!media) {
+    throw new Error("Media not found");
+  }
+
+  // Ne pas décrémenter si déjà à 0
+  if (media.likes <= 0) {
+    throw new Error("Cannot decrement likes below 0");
+  }
+
+  return prisma.media.update({
+    where: { id: mediaId },
+    data: { likes: { decrement: 1 } },
     select: { id: true, likes: true },
   });
 };

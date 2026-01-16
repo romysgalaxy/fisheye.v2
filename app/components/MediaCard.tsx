@@ -7,9 +7,10 @@ type Props = {
   media: Media;
   onOpen: () => void;
   onLike: () => void;
+  isLiked: boolean;
 };
 
-export default function MediaCard({ media, onOpen, onLike }: Props) {
+export default function MediaCard({ media, onOpen, onLike, isLiked }: Props) {
   const { title, image, video, likes } = media;
   const basePath = "/images";
 
@@ -54,10 +55,11 @@ export default function MediaCard({ media, onOpen, onLike }: Props) {
         <button
           type="button"
           className="media-card__like-btn"
-          aria-label={`Ajouter un like à ${title}`}
+          aria-label={isLiked ? `Retirer le like de ${title}` : `Ajouter un like à ${title}`}
           onClick={onLike}
+          style={{ color: isLiked ? "#901c1c" : "#D3573C" }}
         >
-          <span aria-hidden="true">{likes} ♥</span>
+          <span aria-hidden="true">{likes} {isLiked ? "❤" : "♥"}</span>
           <span className="sr-only">{likes} likes</span>
         </button>
       </div>
