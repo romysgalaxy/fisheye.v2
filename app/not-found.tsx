@@ -1,5 +1,9 @@
 import Link from "next/link";
 
+/**
+ * Page 404 - Page introuvable
+ * Affichée quand l'utilisateur accède à une URL inexistante
+ */
 export default function NotFound() {
   return (
     <div className="not-found-container">

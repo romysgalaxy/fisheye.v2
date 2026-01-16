@@ -12,6 +12,10 @@ type LightboxProps = {
   onNext: () => void;
 };
 
+/**
+ * Lightbox - Affiche un média en plein écran
+ * Permet la navigation au clavier (Échap, flèches)
+ */
 export default function Lightbox({
   isOpen,
   media,
@@ -22,6 +26,7 @@ export default function Lightbox({
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const basePath = "/images";
 
+  // Gestion des raccourcis clavier
   useEffect(() => {
     if (!isOpen) return;
 
@@ -32,6 +37,7 @@ export default function Lightbox({
     };
 
     document.addEventListener("keydown", handleKeyDown);
+    // Focus sur le bouton fermer pour l'accessibilité
     closeButtonRef.current?.focus();
 
     return () => {
@@ -41,6 +47,7 @@ export default function Lightbox({
 
   if (!isOpen) return null;
 
+  /** Fermer la lightbox en cliquant sur l'overlay (fond sombre) */
   const handleOverlayClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {

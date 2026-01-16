@@ -5,6 +5,10 @@ type Props = {
   pricePerDay: number;
 };
 
+/**
+ * Barre fixe en bas à droite
+ * Affiche le total des likes et le prix par jour du photographe
+ */
 export default function LikesBar({ totalLikes, pricePerDay }: Props) {
   return (
     <aside className="likes-bar" aria-labelledby="likes-bar-heading">

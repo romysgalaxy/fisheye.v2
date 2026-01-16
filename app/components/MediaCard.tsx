@@ -10,10 +10,15 @@ type Props = {
   isLiked: boolean;
 };
 
+/**
+ * Carte d'un média (image ou vidéo)
+ * Affiche le média avec son titre et le bouton like
+ */
 export default function MediaCard({ media, onOpen, onLike, isLiked }: Props) {
   const { title, image, video, likes } = media;
   const basePath = "/images";
 
+  /** Gestion du clavier pour ouvrir la lightbox (Enter ou Espace) */
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -23,6 +28,7 @@ export default function MediaCard({ media, onOpen, onLike, isLiked }: Props) {
 
   return (
     <article className="media-card">
+      {/* Aperçu cliquable du média */}
       <div
         className="media-card__frame"
         role="button"
@@ -49,6 +55,7 @@ export default function MediaCard({ media, onOpen, onLike, isLiked }: Props) {
         ) : null}
       </div>
 
+      {/* Titre et bouton like */}
       <div className="media-card__info">
         <h3 className="media-card__title">{title}</h3>
 
@@ -59,6 +66,7 @@ export default function MediaCard({ media, onOpen, onLike, isLiked }: Props) {
           onClick={onLike}
           style={{ color: isLiked ? "#901c1c" : "#D3573C" }}
         >
+          {/* Cœur plein si liké, vide sinon */}
           <span aria-hidden="true">{likes} {isLiked ? "❤" : "♥"}</span>
           <span className="sr-only">{likes} likes</span>
         </button>

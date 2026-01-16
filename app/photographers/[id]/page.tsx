@@ -9,14 +9,20 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
+/**
+ * Page d'un photographe individuel
+ * Affiche le header du photographe et sa galerie de médias
+ */
 export default async function PhotographerPage({ params }: Props) {
-
+  // Récupérer l'ID depuis les paramètres d'URL
   const { id } = await params;
   const photographerId = Number(id);
 
+  // Charger le photographe et ses médias depuis la base de données
   const photographer: Photographer | null = await getPhotographer(photographerId);
   const medias: Media[] = await getAllMediasForPhotographer(photographerId);
 
+  // Si le photographe n'existe pas, afficher la page 404
   if (!photographer) {
     notFound();
   }
@@ -27,7 +33,6 @@ export default async function PhotographerPage({ params }: Props) {
       <main>
         <PhotographerHeader photographer={photographer} />
         <Gallery medias={medias} photographerPricePerDay={photographer.price} />
-
       </main>
     </>
   );

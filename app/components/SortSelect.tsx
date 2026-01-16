@@ -7,6 +7,10 @@ type Props = {
   onChange: (value: SortValue) => void;
 };
 
+/**
+ * Sélecteur de tri pour la galerie
+ * Permet de trier par popularité, date ou titre
+ */
 export default function SortSelect({ value, onChange }: Props) {
   return (
     <div className="sort">

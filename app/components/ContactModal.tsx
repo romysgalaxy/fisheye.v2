@@ -8,6 +8,10 @@ type ContactModalProps = {
   photographerName: string;
 };
 
+/**
+ * Modale de contact pour un photographe
+ * Formulaire avec prénom, nom, email et message
+ */
 export default function ContactModal({
   isOpen,
   onClose,
@@ -15,11 +19,13 @@ export default function ContactModal({
 }: ContactModalProps) {
   const firstFieldRef = useRef<HTMLInputElement | null>(null);
 
+  // États du formulaire
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
+  // Gestion du clavier (Échap pour fermer) et focus automatique
   useEffect(() => {
     if (!isOpen) return;
 
@@ -30,6 +36,7 @@ export default function ContactModal({
     };
 
     document.addEventListener("keydown", handleKeyDown);
+    // Focus sur le premier champ pour l'accessibilité
     firstFieldRef.current?.focus();
 
     return () => {
@@ -39,6 +46,7 @@ export default function ContactModal({
 
   if (!isOpen) return null;
 
+  /** Soumettre le formulaire (log dans la console) */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Contact form:", {
@@ -50,6 +58,7 @@ export default function ContactModal({
     onClose();
   };
 
+  /** Fermer la modale en cliquant sur l'overlay */
   const handleOverlayClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {

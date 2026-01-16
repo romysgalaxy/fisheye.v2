@@ -6,11 +6,16 @@ type PhotographerCardProps = {
   photographer: Photographer;
 };
 
+/**
+ * Carte d'un photographe sur la page d'accueil
+ * Affiche le portrait, nom, localisation, slogan et prix
+ */
 export default function PhotographerCard({ photographer }: PhotographerCardProps) {
   const { id, name, city, country, tagline, price, portrait } = photographer;
 
   return (
     <article className="photographer-card">
+      {/* Lien vers la page du photographe */}
       <Link href={`/photographers/${id}`} className="photographer-card__link">
         <Image
           src={`/images/${portrait}`}

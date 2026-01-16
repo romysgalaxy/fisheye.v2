@@ -7,7 +7,12 @@ type ErrorProps = {
   reset: () => void;
 };
 
+/**
+ * Page d'erreur globale
+ * Affichée quand une erreur inattendue se produit
+ */
 export default function Error({ error, reset }: ErrorProps) {
+  // Logger l'erreur dans la console au montage
   useEffect(() => {
     console.error("Erreur capturée:", error);
   }, [error]);

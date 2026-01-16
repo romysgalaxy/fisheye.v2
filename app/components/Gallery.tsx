@@ -15,71 +15,87 @@ type GalleryProps = {
   photographerPricePerDay: number;
 };
 
+/**
+ * Composant Galerie - Affiche les médias d'un photographe
+ * Gère le tri, les likes, et la lightbox
+ */
 export default function Gallery({ medias, photographerPricePerDay }: GalleryProps) {
+  // État des médias (source de vérité)
   const [items, setItems] = useState<Media[]>(medias);
 
-  // ✅ tri sélectionné
+  // Type de tri sélectionné (popularité par défaut)
   const [sortBy, setSortBy] = useState<SortValue>("popularity");
 
-  // État pour le toast d'erreur
+  // Affichage du toast d'erreur
   const [showErrorToast, setShowErrorToast] = useState(false);
 
-  // État pour suivre les médias likés par l'utilisateur dans cette session
+  // Médias likés par l'utilisateur dans cette session (réinitialisé au rafraîchissement)
   const [likedMedias, setLikedMedias] = useState<Set<number>>(new Set());
 
-  // ✅ total likes (sur les items en state)
+  // Calculer le total des likes pour la barre de likes
   const totalLikes = useMemo(
     () => items.reduce((sum, m) => sum + (m.likes ?? 0), 0),
     [items]
   );
 
-  // ✅ tri (copie du tableau, jamais mutate l’original)
+  // Trier les médias selon le critère sélectionné
   const sortedItems = useMemo(() => {
     const copy = [...items];
 
     if (sortBy === "popularity") {
+      // Tri par nombre de likes (décroissant)
       copy.sort((a, b) => b.likes - a.likes);
     } else if (sortBy === "date") {
+      // Tri par date (plus récent en premier)
       copy.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     } else if (sortBy === "title") {
+      // Tri alphabétique par titre
       copy.sort((a, b) => a.title.localeCompare(b.title, "fr", { sensitivity: "base" }));
     }
 
     return copy;
   }, [items, sortBy]);
 
-  // Lightbox state basé sur l’index de sortedItems
+  // État de la lightbox
   const [isOpen, setIsOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
 
+  /** Ouvrir la lightbox à un index spécifique */
   const openAtIndex = useCallback((index: number) => {
     setCurrentIndex(index);
     setIsOpen(true);
   }, []);
 
+  /** Fermer la lightbox */
   const close = useCallback(() => {
     setIsOpen(false);
     setCurrentIndex(null);
   }, []);
 
+  /** Afficher le média précédent dans la lightbox */
   const showPrev = useCallback(() => {
     setCurrentIndex((prev) =>
       prev === null ? prev : (prev - 1 + sortedItems.length) % sortedItems.length
     );
   }, [sortedItems.length]);
 
+  /** Afficher le média suivant dans la lightbox */
   const showNext = useCallback(() => {
     setCurrentIndex((prev) =>
       prev === null ? prev : (prev + 1) % sortedItems.length
     );
   }, [sortedItems.length]);
 
-  // ✅ toggle like/unlike
+  /**
+   * Toggle like/unlike d'un média
+   * Envoie la requête à l'API et met à jour l'état avec la réponse de la BDD
+   */
   const toggleLike = useCallback(async (mediaId: number) => {
     const isLiked = likedMedias.has(mediaId);
     const action = isLiked ? "unlike" : "like";
 
     try {
+      // Appeler l'API pour mettre à jour le like en BDD
       const res = await fetch("/api/likes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -93,12 +109,12 @@ export default function Gallery({ medias, photographerPricePerDay }: GalleryProp
 
       const updated = (await res.json()) as { id: number; likes: number };
 
-      // Mettre à jour avec la réponse de la BDD
+      // Mettre à jour le nombre de likes avec la valeur de la BDD (source de vérité)
       setItems((prev) =>
         prev.map((m) => (m.id === updated.id ? { ...m, likes: updated.likes } : m))
       );
 
-      // Mettre à jour l'état liké/unliké
+      // Mettre à jour l'état liké/unliké localement
       setLikedMedias((prev) => {
         const next = new Set(prev);
         if (isLiked) {
@@ -116,9 +132,10 @@ export default function Gallery({ medias, photographerPricePerDay }: GalleryProp
 
   return (
     <>
-      {/* ✅ Barre de tri */}
+      {/* Sélecteur de tri */}
       <SortSelect value={sortBy} onChange={setSortBy} />
 
+      {/* Grille de médias */}
       <section className="gallery-grid" aria-labelledby="gallery-heading">
         <h2 id="gallery-heading" className="sr-only">
           Galerie des travaux
@@ -134,8 +151,10 @@ export default function Gallery({ medias, photographerPricePerDay }: GalleryProp
         ))}
       </section>
 
+      {/* Barre fixe avec le total des likes et le prix */}
       <LikesBar totalLikes={totalLikes} pricePerDay={photographerPricePerDay} />
 
+      {/* Lightbox pour afficher un média en grand */}
       {currentIndex !== null && (
         <Lightbox
           isOpen={isOpen}
@@ -146,6 +165,7 @@ export default function Gallery({ medias, photographerPricePerDay }: GalleryProp
         />
       )}
 
+      {/* Toast d'erreur en cas de problème avec les likes */}
       {showErrorToast && (
         <Toast
           message="Impossible de mettre à jour le like. Veuillez réessayer."
