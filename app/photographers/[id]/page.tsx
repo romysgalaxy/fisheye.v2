@@ -18,6 +18,9 @@ export default async function PhotographerPage({ params }: Props) {
   const { id } = await params;
   const photographerId = Number(id);
 
+  // Délai artificiel pour tester le loader (À SUPPRIMER EN PRODUCTION)
+  await new Promise(resolve => setTimeout(resolve, 3000));
+
   // Charger le photographe et ses médias depuis la base de données
   const photographer: Photographer | null = await getPhotographer(photographerId);
   const medias: Media[] = await getAllMediasForPhotographer(photographerId);

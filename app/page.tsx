@@ -8,6 +8,9 @@ import PhotographerCard from "./components/PhotographerCard";
  * Server Component : les données sont chargées côté serveur
  */
 export default async function Home() {
+  // Délai artificiel pour tester le loader (À SUPPRIMER EN PRODUCTION)
+  await new Promise(resolve => setTimeout(resolve, 3000));
+
   // Récupérer tous les photographes depuis la base de données
   const photographers: Photographer[] = await getAllPhotographers();
 
